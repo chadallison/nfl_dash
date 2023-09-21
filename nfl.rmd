@@ -193,6 +193,8 @@ margins |>
   scale_y_continuous(breaks = seq(-1000, 1000, by = 5))
 ```
 
+___
+
 ### Point-Adjusted Margins
 
 ```{r echo = F}
