@@ -12,6 +12,7 @@ knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md"
 - [Point-Adjusted Margins]
 - [Quarter-Based Scoring Trends]
 - [Offensive and Defensive CPR]
+- [Modeling]
 
 ```{r message = F, warning = F, include = F}
 library(tidyverse)
@@ -206,10 +207,10 @@ pam_df = data.frame(team = all_teams) |>
          total = scored + allowed,
          pam = round(margin / total, 4) * 10) |>
   select(team, pam) |>
-  mutate(team = paste0(team, " (", pam, ")"))
+  mutate(team2 = paste0(team, " (", pam, ")"))
 
 pam_df |>
-  ggplot(aes(reorder(team, pam), pam)) +
+  ggplot(aes(reorder(team2, pam), pam)) +
   geom_col(aes(fill = team), show.legend = F) +
   scale_fill_manual(values = team_hex) +
   coord_flip() +
@@ -343,6 +344,43 @@ cpr_ranks = team_cpr |>
 
 ___
 
+### Modeling
+
+```{r echo = F}
+modeling_metrics = pam_df |>
+  select(team, pam) |>
+  inner_join(margins |>
+  select(team, avg_margin), by = "team") |>
+  inner_join(ppg_df, by = "team")
+
+modeling_df = end_games |>
+  transmute(home_team, away_team,
+            home_win = ifelse(win_team == home_team, 1, 0)) |>
+  inner_join(modeling_metrics, by = c("home_team" = "team")) |>
+  rename(home_pam = pam,
+         home_avg_margin = avg_margin,
+         home_ppg = ppg,
+         home_papg = papg) |>
+  inner_join(modeling_metrics, by = c("away_team" = "team")) |>
+  rename(away_pam = pam,
+         away_avg_margin = avg_margin,
+         away_ppg = ppg,
+         away_papg = papg)
+
+log_mod = glm(home_win ~ home_pam + home_avg_margin + home_ppg + home_papg +
+                         away_pam + away_avg_margin + away_ppg + away_papg,
+              data = modeling_df, family = "binomial")
+
+mod_res = modeling_df |>
+  mutate(pred_prob = round(predict(log_mod, newdata = modeling_df, type = "response"), 3),
+         pred_home_win = ifelse(pred_prob >= 0.5, 1, 0)) |>
+  count(home_win == pred_home_win) |>
+  pull(n)
+
+acc_pct = paste0(round(mod_res[2] / sum(mod_res), 4) * 100, "%")
+```
+
+- First draft basic logistic regression accuracy: `r acc_pct`
 
 
 

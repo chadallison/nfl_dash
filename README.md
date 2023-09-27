@@ -8,6 +8,7 @@
 - [Point-Adjusted Margins](#point-adjusted-margins)
 - [Quarter-Based Scoring Trends](#quarter-based-scoring-trends)
 - [Offensive and Defensive CPR](#offensive-and-defensive-cpr)
+- [Modeling](#modeling)
 
 ------------------------------------------------------------------------
 
@@ -68,3 +69,7 @@
 5.  WAS: -4.222
 
 ------------------------------------------------------------------------
+
+### Modeling
+
+- First draft basic logistic regression accuracy: 79.17%
