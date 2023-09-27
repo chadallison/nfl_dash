@@ -11,6 +11,7 @@ knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md"
 - [Team Margins]
 - [Point-Adjusted Margins]
 - [Quarter-Based Scoring Trends]
+- [Offensive and Defensive CPR]
 
 ```{r message = F, warning = F, include = F}
 library(tidyverse)
@@ -265,14 +266,82 @@ teams_qtrs |>
        subtitle = "Overtime treated as 4Q")
 ```
 
+___
 
+### Offensive and Defensive CPR
 
+```{r echo = F}
+ppg_df = data.frame(team = all_teams) |>
+  mutate(scored = sapply(team, get_pts_scored),
+         allowed = sapply(team, get_pts_allowed),
+         games = sapply(team, get_games_played)) |>
+  transmute(team, ppg = round(scored / games, 3), papg = round(allowed / games, 3))
 
+cpr_df = end_games |>
+  select(home_team, home_score, away_team, away_score) |>
+  inner_join(ppg_df, by = c("home_team" = "team")) |>
+  rename(home_ppg = ppg, home_papg = papg) |>
+  inner_join(ppg_df, by = c("away_team" = "team")) |>
+  rename(away_ppg = ppg, away_papg = papg) |>
+  mutate(home_exp = round((home_ppg + away_papg) / 2, 3),
+         away_exp = round((away_ppg + home_papg) / 2, 3),
+         home_off_cpr = home_score - home_exp,
+         home_def_cpr = away_exp - away_score,
+         away_off_cpr = away_score - away_exp,
+         away_def_cpr = home_exp - home_score) |>
+  select(home_team, home_score, away_team, away_score, home_off_cpr, home_def_cpr, away_off_cpr, away_def_cpr)
 
+get_off_cpr = function(team) {
+  home = cpr_df |> filter(home_team == team) |> pull(home_off_cpr)
+  away = cpr_df |> filter(away_team == team) |> pull(away_off_cpr)
+  return(round(mean(c(home, away)), 3))
+}
 
+get_def_cpr = function(team) {
+  home = cpr_df |> filter(home_team == team) |> pull(home_def_cpr)
+  away = cpr_df |> filter(away_team == team) |> pull(away_def_cpr)
+  return(round(mean(c(home, away)), 3))
+}
 
+team_cpr = data.frame(team = all_teams) |>
+  mutate(off_cpr = sapply(team, get_off_cpr),
+         def_cpr = sapply(team, get_def_cpr),
+         total_cpr = off_cpr + def_cpr)
 
+team_cpr |>
+  ggplot(aes(off_cpr, def_cpr)) +
+  geom_point(aes(col = team), shape = "square", size = 5, show.legend = F) +
+  scale_color_manual(values = team_hex) +
+  ggrepel::geom_text_repel(aes(label = team), size = 3.5, box.padding = 0.5, segment.alpha = 0.5, max.overlaps = 32) +
+  geom_hline(aes(yintercept = 0), linetype = "dashed", alpha = 0.25) +
+  geom_vline(aes(xintercept = 0), linetype = "dashed", alpha = 0.25) +
+  labs(x = "Offensive CPR", y = "Defensive CPR",
+       title = "Scatterplot of Offensive and Defensive CPRs",
+       subtitle = "Composite Performance Rating (CPR) is an Evaluation of Performance Over/Under Expected") +
+  scale_x_continuous(breaks = seq(-10, 10, by = 1)) +
+  scale_y_continuous(breaks = seq(-10, 10, by = 1))
 
+cpr_ranks = team_cpr |>
+  arrange(desc(total_cpr))
+```
+
+##### Five Best Total CPRs
+
+1. `r cpr_ranks$team[1]`: `r cpr_ranks$total_cpr[1]`
+2. `r cpr_ranks$team[2]`: `r cpr_ranks$total_cpr[2]`
+3. `r cpr_ranks$team[3]`: `r cpr_ranks$total_cpr[3]`
+4. `r cpr_ranks$team[4]`: `r cpr_ranks$total_cpr[4]`
+5. `r cpr_ranks$team[5]`: `r cpr_ranks$total_cpr[5]`
+
+##### Five Worst Total CPRs
+
+1. `r cpr_ranks$team[32]`: `r cpr_ranks$total_cpr[32]`
+2. `r cpr_ranks$team[31]`: `r cpr_ranks$total_cpr[31]`
+3. `r cpr_ranks$team[30]`: `r cpr_ranks$total_cpr[30]`
+4. `r cpr_ranks$team[29]`: `r cpr_ranks$total_cpr[29]`
+5. `r cpr_ranks$team[28]`: `r cpr_ranks$total_cpr[28]`
+
+___
 
 
 
