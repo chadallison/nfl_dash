@@ -380,7 +380,97 @@ mod_res = modeling_df |>
 acc_pct = paste0(round(mod_res[2] / sum(mod_res), 4) * 100, "%")
 ```
 
-- First draft basic logistic regression accuracy: `r acc_pct`
+First draft basic logistic regression accuracy: `r acc_pct`
+
+##### *This Week's Predictions*
+
+```{r echo = F}
+predict_game_winner = function(home_team, away_team) {
+  matchup_stats = data.frame(home_team = home_team, away_team = away_team) |>
+    inner_join(pam_df, by = c("home_team" = "team")) |>
+    select(home_team, away_team, home_pam = pam) |>
+    inner_join(margins, by = c("home_team" = "team")) |>
+    select(home_team, away_team, home_pam, home_avg_margin = avg_margin) |>
+    inner_join(ppg_df, by = c("home_team" = "team")) |>
+    rename(home_ppg = ppg, home_papg = papg) |>
+    inner_join(pam_df, by = c("away_team" = "team")) |>
+    select(home_team:home_papg, away_pam = pam) |>
+    inner_join(margins, by = c("away_team" = "team")) |>
+    select(home_team:away_pam, away_avg_margin = avg_margin) |>
+    inner_join(ppg_df, by = c("away_team" = "team")) |>
+    rename(away_ppg = ppg, away_papg = papg)
+  
+  home_win_prob = predict(log_mod, matchup_stats, type = "response")
+  
+  if (home_win_prob >= 0.5) {
+    return(home_team)
+  } else {
+    return(away_team)
+  }
+}
+
+predict_winner_prob = function(home_team, away_team) {
+  matchup_stats = data.frame(home_team = home_team, away_team = away_team) |>
+    inner_join(pam_df, by = c("home_team" = "team")) |>
+    select(home_team, away_team, home_pam = pam) |>
+    inner_join(margins, by = c("home_team" = "team")) |>
+    select(home_team, away_team, home_pam, home_avg_margin = avg_margin) |>
+    inner_join(ppg_df, by = c("home_team" = "team")) |>
+    rename(home_ppg = ppg, home_papg = papg) |>
+    inner_join(pam_df, by = c("away_team" = "team")) |>
+    select(home_team:home_papg, away_pam = pam) |>
+    inner_join(margins, by = c("away_team" = "team")) |>
+    select(home_team:away_pam, away_avg_margin = avg_margin) |>
+    inner_join(ppg_df, by = c("away_team" = "team")) |>
+    rename(away_ppg = ppg, away_papg = papg)
+  
+  home_win_prob = predict(log_mod, matchup_stats, type = "response")
+  
+  if (home_win_prob >= 0.5) {
+    return(round(home_win_prob, 3))
+  } else {
+    return(round(1 - home_win_prob, 3))
+  }
+}
+
+this_week = nflfastR::fast_scraper_schedules(season = 2023) |>
+  filter(week == 4) |>
+  select(home_team, away_team) |>
+  rowwise() |>
+  mutate(pred_winner = predict_game_winner(home_team, away_team),
+         pred_loser = ifelse(pred_winner == home_team, away_team, home_team),
+         winner_prob = predict_winner_prob(home_team, away_team)) |>
+  ungroup() |>
+  arrange(desc(winner_prob))
+
+for (i in 1:nrow(this_week)) {
+  print(paste0(this_week$away_team[i], " @ ", this_week$home_team[i], ": ",
+               this_week$pred_winner[i], " def. ", this_week$pred_loser[i], " (", this_week$winner_prob[i], ")"))
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
