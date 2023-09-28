@@ -76,19 +76,19 @@ First draft basic logistic regression accuracy: 79.17%
 
 ##### *This Week’s Predictions*
 
-    ## [1] "MIA @ BUF: MIA def. BUF (0.989)"
-    ## [1] "SEA @ NYG: SEA def. NYG (0.981)"
-    ## [1] "NE @ DAL: DAL def. NE (0.92)"
-    ## [1] "DEN @ CHI: DEN def. CHI (0.892)"
-    ## [1] "ARI @ SF: SF def. ARI (0.886)"
-    ## [1] "WAS @ PHI: PHI def. WAS (0.885)"
-    ## [1] "BAL @ CLE: CLE def. BAL (0.882)"
-    ## [1] "MIN @ CAR: MIN def. CAR (0.831)"
-    ## [1] "LV @ LAC: LV def. LAC (0.795)"
-    ## [1] "LA @ IND: LA def. IND (0.779)"
-    ## [1] "KC @ NYJ: NYJ def. KC (0.77)"
-    ## [1] "TB @ NO: NO def. TB (0.739)"
-    ## [1] "PIT @ HOU: PIT def. HOU (0.665)"
-    ## [1] "ATL @ JAX: ATL def. JAX (0.652)"
-    ## [1] "DET @ GB: GB def. DET (0.591)"
-    ## [1] "CIN @ TEN: CIN def. TEN (0.582)"
+- MIA @ BUF: MIA def. BUF (0.989)
+- SEA @ NYG: SEA def. NYG (0.981)
+- NE @ DAL: DAL def. NE (0.92)
+- DEN @ CHI: DEN def. CHI (0.892)
+- ARI @ SF: SF def. ARI (0.886)
+- WAS @ PHI: PHI def. WAS (0.885)
+- BAL @ CLE: CLE def. BAL (0.882)
+- MIN @ CAR: MIN def. CAR (0.831)
+- LV @ LAC: LV def. LAC (0.795)
+- LA @ IND: LA def. IND (0.779)
+- KC @ NYJ: NYJ def. KC (0.77)
+- TB @ NO: NO def. TB (0.739)
+- PIT @ HOU: PIT def. HOU (0.665)
+- ATL @ JAX: ATL def. JAX (0.652)
+- DET @ GB: GB def. DET (0.591)
+- CIN @ TEN: CIN def. TEN (0.582)

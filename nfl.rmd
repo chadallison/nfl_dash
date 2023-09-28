@@ -443,15 +443,32 @@ this_week = nflfastR::fast_scraper_schedules(season = 2023) |>
   ungroup() |>
   arrange(desc(winner_prob))
 
+this_week_preds = data.frame(desc = NULL)
+
 for (i in 1:nrow(this_week)) {
-  print(paste0(this_week$away_team[i], " @ ", this_week$home_team[i], ": ",
-               this_week$pred_winner[i], " def. ", this_week$pred_loser[i], " (", this_week$winner_prob[i], ")"))
+  str = paste0(this_week$away_team[i], " @ ", this_week$home_team[i], ": ",
+               this_week$pred_winner[i], " def. ", this_week$pred_loser[i], " (", this_week$winner_prob[i], ")")
+  
+  this_week_preds = rbind(this_week_preds, data.frame(desc = str))
 }
 ```
 
-
-
-
+- `r this_week_preds$desc[1]`
+- `r this_week_preds$desc[2]`
+- `r this_week_preds$desc[3]`
+- `r this_week_preds$desc[4]`
+- `r this_week_preds$desc[5]`
+- `r this_week_preds$desc[6]`
+- `r this_week_preds$desc[7]`
+- `r this_week_preds$desc[8]`
+- `r this_week_preds$desc[9]`
+- `r this_week_preds$desc[10]`
+- `r this_week_preds$desc[11]`
+- `r this_week_preds$desc[12]`
+- `r this_week_preds$desc[13]`
+- `r this_week_preds$desc[14]`
+- `r this_week_preds$desc[15]`
+- `r this_week_preds$desc[16]`
 
 
 
