@@ -475,6 +475,38 @@ for (i in 1:nrow(this_week)) {
 
 
 
+```{r}
+# Install and load the XGBoost package
+# install.packages("xgboost")
+library(xgboost)
+
+# Prepare your data
+dtrain <- xgb.DMatrix(data = as.matrix(modeling_df[, c("home_pam", "home_avg_margin", "home_ppg",
+                                                       "home_papg", "away_pam", "away_avg_margin",
+                                                       "away_ppg", "away_papg")]),
+                      label = modeling_df$home_win)
+
+# Define hyperparameters
+params <- list(
+  objective = "binary:logistic",  # Binary classification
+  eval_metric = "logloss"         # Log loss as evaluation metric
+)
+
+# Train the XGBoost model
+xgb_model <- xgboost(data = dtrain, params = params, nrounds = 100)
+
+# Make predictions
+# Assuming you have a new dataset called new_data
+dtest <- xgb.DMatrix(data = as.matrix(modeling_df[, c("home_pam", "home_avg_margin", "home_ppg", "home_papg", "away_pam", "away_avg_margin", "away_ppg", "away_papg")]))
+predictions <- predict(xgb_model, dtest)
+
+# Evaluate the model as needed
+modeling_df |>
+  select(home_win) |>
+  mutate(pred_prob = predictions,
+         pred_hw = ifelse(pred_prob >= 0.5, 1, 0)) |>
+  count(home_win == pred_hw)
+```
 
 
 
