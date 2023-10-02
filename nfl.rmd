@@ -3,10 +3,6 @@ output: github_document
 knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md", envir = globalenv()) })
 ---
 
-<!-- ___ -->
-
-<!-- **Data: NFL.com via {nflfastR}** | Last Updated: `r better_date(Sys.Date())` at `r sys_time` -->
-
 ### Contents
 
 - [Team Standings]
