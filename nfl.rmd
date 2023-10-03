@@ -471,40 +471,21 @@ for (i in 1:nrow(this_week)) {
 
 
 
-
-
 ```{r}
-# Install and load the XGBoost package
-# install.packages("xgboost")
-library(xgboost)
-
-# Prepare your data
-dtrain <- xgb.DMatrix(data = as.matrix(modeling_df[, c("home_pam", "home_avg_margin", "home_ppg",
-                                                       "home_papg", "away_pam", "away_avg_margin",
-                                                       "away_ppg", "away_papg")]),
-                      label = modeling_df$home_win)
-
-# Define hyperparameters
-params <- list(
-  objective = "binary:logistic",  # Binary classification
-  eval_metric = "logloss"         # Log loss as evaluation metric
-)
-
-# Train the XGBoost model
-xgb_model <- xgboost(data = dtrain, params = params, nrounds = 100)
-
-# Make predictions
-# Assuming you have a new dataset called new_data
-dtest <- xgb.DMatrix(data = as.matrix(modeling_df[, c("home_pam", "home_avg_margin", "home_ppg", "home_papg", "away_pam", "away_avg_margin", "away_ppg", "away_papg")]))
-predictions <- predict(xgb_model, dtest)
-
-# Evaluate the model as needed
-modeling_df |>
-  select(home_win) |>
-  mutate(pred_prob = predictions,
-         pred_hw = ifelse(pred_prob >= 0.5, 1, 0)) |>
-  count(home_win == pred_hw)
+season_pbp |>
+  filter(!is.na(air_yards)) |>
+  mutate(is_complete = ifelse(is.na(yards_after_catch), 0, 1)) |>
+  select(passer, air_yards, is_complete) |>
+  group_by(passer) |>
+  summarise(n = n(),
+            total_air = sum(air_yards),
+            avg_air = mean(air_yards),
+            comp_rate = mean(is_complete)) |>
+  filter(n >= 50) |>
+  transmute(passer, swag_rating = round(avg_air / (1 - comp_rate), 3)) |>
+  arrange(desc(swag_rating))
 ```
+
 
 
 
