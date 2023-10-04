@@ -12,6 +12,7 @@ knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md"
 - [Point-Adjusted Margins]
 - [Quarter-Based Scoring Trends]
 - [Offensive and Defensive CPR]
+- [Weekly QB CER]
 - [Modeling]
 
 ```{r message = F, warning = F, include = F}
@@ -342,9 +343,39 @@ cpr_ranks = team_cpr |>
 
 ___
 
-### Modeling
+### Weekly QB CER
 
 ```{r echo = F}
+current_week = 5
+
+season_pbp |>
+  filter(!is.na(air_yards) & week == current_week - 1) |>
+  mutate(is_complete = ifelse(is.na(yards_after_catch), 0, 1)) |>
+  select(passer, air_yards, is_complete) |>
+  group_by(passer) |>
+  summarise(n = n(),
+            total_air = sum(air_yards),
+            avg_air = mean(air_yards),
+            comp_rate = mean(is_complete)) |>
+  filter(n >= 10) |>
+  transmute(passer, cer = round(avg_air / (1 - comp_rate), 3),
+            cer = round(log(cer), 3),
+            passer = paste0(passer, " (", cer, ")")) |>
+  ggplot(aes(reorder(passer, cer), cer)) +
+  geom_col(aes(fill = cer), show.legend = F) +
+  coord_flip() +
+  scale_fill_gradient(low = "indianred3", high = "springgreen4") +
+  labs(x = NULL, y = "QB CER",
+       title = "Past Week CER Rankings",
+       subtitle = "CER (Chad Efficiency Rating) = ln(Avg. Air Yards / (1 - Completion Rate))") +
+  scale_y_continuous(breaks = seq(0, 10, by = 0.5))
+```
+
+___
+
+### Modeling
+
+```{r echo = F, message = F, warning = F}
 modeling_metrics = pam_df |>
   select(team, pam) |>
   inner_join(margins |>
@@ -382,7 +413,7 @@ First draft basic logistic regression accuracy: `r acc_pct`
 
 ##### *This Week's Predictions*
 
-```{r echo = F}
+```{r echo = F, message = F, warning = F}
 predict_game_winner = function(home_team, away_team) {
   matchup_stats = data.frame(home_team = home_team, away_team = away_team) |>
     inner_join(pam_df, by = c("home_team" = "team")) |>
@@ -432,7 +463,7 @@ predict_winner_prob = function(home_team, away_team) {
 }
 
 this_week = nflfastR::fast_scraper_schedules(season = 2023) |>
-  filter(week == 4) |>
+  filter(week == 5) |>
   select(home_team, away_team) |>
   rowwise() |>
   mutate(pred_winner = predict_game_winner(home_team, away_team),
@@ -465,26 +496,11 @@ for (i in 1:nrow(this_week)) {
 - `r this_week_preds$desc[12]`
 - `r this_week_preds$desc[13]`
 - `r this_week_preds$desc[14]`
-- `r this_week_preds$desc[15]`
-- `r this_week_preds$desc[16]`
+<!-- - `r this_week_preds$desc[15]` -->
+<!-- - `r this_week_preds$desc[16]` -->
 
 
 
-
-```{r}
-season_pbp |>
-  filter(!is.na(air_yards)) |>
-  mutate(is_complete = ifelse(is.na(yards_after_catch), 0, 1)) |>
-  select(passer, air_yards, is_complete) |>
-  group_by(passer) |>
-  summarise(n = n(),
-            total_air = sum(air_yards),
-            avg_air = mean(air_yards),
-            comp_rate = mean(is_complete)) |>
-  filter(n >= 50) |>
-  transmute(passer, swag_rating = round(avg_air / (1 - comp_rate), 3)) |>
-  arrange(desc(swag_rating))
-```
 
 
 

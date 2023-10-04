@@ -8,6 +8,7 @@
 - [Point-Adjusted Margins](#point-adjusted-margins)
 - [Quarter-Based Scoring Trends](#quarter-based-scoring-trends)
 - [Offensive and Defensive CPR](#offensive-and-defensive-cpr)
+- [Weekly QB CER](#weekly-qb-cer)
 - [Modeling](#modeling)
 
 ------------------------------------------------------------------------
@@ -70,68 +71,29 @@
 
 ------------------------------------------------------------------------
 
-### Modeling
+### Weekly QB CER
 
-    ## Warning: There was 1 warning in `mutate()`.
-    ## ℹ In argument: `pred_prob = round(...)`.
-    ## Caused by warning in `predict.lm()`:
-    ## ! prediction from rank-deficient fit; attr(*, "non-estim") has doubtful cases
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+------------------------------------------------------------------------
+
+### Modeling
 
 First draft basic logistic regression accuracy: 78.12%
 
 ##### *This Week’s Predictions*
 
-    ## Warning: There were 32 warnings in `mutate()`.
-    ## The first warning was:
-    ## ℹ In argument: `pred_winner = predict_game_winner(home_team, away_team)`.
-    ## ℹ In row 1.
-    ## Caused by warning in `predict.lm()`:
-    ## ! prediction from rank-deficient fit; attr(*, "non-estim") has doubtful cases
-    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
-
-- DEN @ CHI: DEN def. CHI (0.988)
-- SEA @ NYG: SEA def. NYG (0.966)
-- NE @ DAL: DAL def. NE (0.954)
-- ARI @ SF: SF def. ARI (0.94)
-- MIA @ BUF: BUF def. MIA (0.832)
-- WAS @ PHI: PHI def. WAS (0.816)
-- MIN @ CAR: MIN def. CAR (0.788)
-- PIT @ HOU: HOU def. PIT (0.774)
-- CIN @ TEN: TEN def. CIN (0.75)
-- DET @ GB: DET def. GB (0.725)
-- LA @ IND: LA def. IND (0.725)
-- LV @ LAC: LAC def. LV (0.651)
-- ATL @ JAX: JAX def. ATL (0.635)
-- KC @ NYJ: KC def. NYJ (0.617)
-- BAL @ CLE: BAL def. CLE (0.597)
-- TB @ NO: NO def. TB (0.595)
-
-``` r
-season_pbp |>
-  filter(!is.na(air_yards)) |>
-  mutate(is_complete = ifelse(is.na(yards_after_catch), 0, 1)) |>
-  select(passer, air_yards, is_complete) |>
-  group_by(passer) |>
-  summarise(n = n(),
-            total_air = sum(air_yards),
-            avg_air = mean(air_yards),
-            comp_rate = mean(is_complete)) |>
-  filter(n >= 50) |>
-  transmute(passer, swag_rating = round(avg_air / (1 - comp_rate), 3)) |>
-  arrange(desc(swag_rating))
-```
-
-    ## # A tibble: 34 × 2
-    ##    passer       swag_rating
-    ##    <chr>              <dbl>
-    ##  1 J.Allen             30.9
-    ##  2 J.Herbert           30.5
-    ##  3 J.Hurts             30.5
-    ##  4 T.Tagovailoa        28.3
-    ##  5 J.Garoppolo         27.6
-    ##  6 D.Watson            26.9
-    ##  7 B.Purdy             26.8
-    ##  8 J.Dobbs             26.8
-    ##  9 L.Jackson           26.7
-    ## 10 R.Tannehill         26.4
-    ## # ℹ 24 more rows
+- NYJ @ DEN: NYJ def. DEN (0.991)
+- JAX @ BUF: BUF def. JAX (0.987)
+- NYG @ MIA: MIA def. NYG (0.965)
+- CHI @ WAS: CHI def. WAS (0.824)
+- CAR @ DET: DET def. CAR (0.817)
+- GB @ LV: GB def. LV (0.817)
+- BAL @ PIT: BAL def. PIT (0.795)
+- DAL @ SF: SF def. DAL (0.795)
+- KC @ MIN: KC def. MIN (0.738)
+- PHI @ LA: PHI def. LA (0.727)
+- NO @ NE: NE def. NO (0.559)
+- HOU @ ATL: HOU def. ATL (0.527)
+- CIN @ ARI: CIN def. ARI (0.522)
+- TEN @ IND: TEN def. IND (0.519) <!-- - NA --> <!-- - NA -->
