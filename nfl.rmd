@@ -13,6 +13,7 @@ knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md"
 - [Quarter-Based Scoring Trends]
 - [Offensive and Defensive CPR]
 - [Weekly QB CER]
+- [QB Air Yards v YAC]
 - [Modeling]
 
 ```{r message = F, warning = F, include = F}
@@ -191,7 +192,7 @@ margins |>
   scale_fill_manual(values = team_hex) +
   coord_flip(ylim = c(min(margins$margin) * 1.05, max(margins$margin) * 1.05)) +
   labs(x = NULL, y = "Margin", title = "Team Margins") +
-  scale_y_continuous(breaks = seq(-1000, 1000, by = 5))
+  scale_y_continuous(breaks = seq(-1000, 1000, by = 10))
 ```
 
 ___
@@ -373,6 +374,53 @@ season_pbp |>
 
 ___
 
+### QB Air Yards v YAC
+
+```{r echo = F}
+qb_air = season_pbp |>
+  filter(!is.na(air_yards) & !is.na(yards_after_catch)) |>
+  mutate(passer = paste0(substr(passer, 1, 2), " ", substr(passer, 3, nchar(passer)))) |>
+  select(passer, air_yards, yards_after_catch) |>
+  group_by(passer) |>
+  summarise(n = n(),
+            total_air = sum(air_yards),
+            total_yac = sum(yards_after_catch)) |>
+  slice_max(n, n = 32, with_ties = F) |>
+  mutate(total_yds = total_air + total_yac,
+         pct_air = round(total_air / total_yds, 3),
+         pct_yac = round(total_yac / total_yds, 3)) |>
+  select(passer, pct_air, pct_yac)
+
+season_pbp |>
+  filter(!is.na(air_yards) & !is.na(yards_after_catch)) |>
+  mutate(passer = paste0(substr(passer, 1, 2), " ", substr(passer, 3, nchar(passer)))) |>
+  select(passer, air_yards, yards_after_catch) |>
+  group_by(passer) |>
+  summarise(n = n(),
+            total_air = sum(air_yards),
+            total_yac = sum(yards_after_catch)) |>
+  slice_max(n, n = 32, with_ties = F) |>
+  mutate(total_yds = total_air + total_yac,
+         pct_air = round(total_air / total_yds, 3),
+         pct_yac = round(total_yac / total_yds, 3)) |>
+  select(passer, pct_air, pct_yac) |>
+  pivot_longer(!passer, names_to = "air_yac", values_to = "value") |>
+  inner_join(qb_air, by = "passer") |>
+  mutate(air_yac = ifelse(air_yac == "pct_yac", "Yards After Catch", "Air Yards"),
+         air_yac = factor(air_yac, levels = c("Yards After Catch", "Air Yards")),
+         passer = paste0(passer, " (", pct_yac * 100, "% YAC)")) |>
+  ggplot(aes(reorder(passer, pct_air), value)) +
+  geom_col(aes(fill = air_yac), width = 0.6) +
+  scale_fill_manual(values = c("#D49898", "#85A67E")) +
+  coord_flip() +
+  labs(x = NULL, y = "Percent of Total Yards", fill = NULL,
+       title = "Which QBs are YAC merchants?") +
+  theme(legend.position = "right") +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1), labels = scales::percent)
+```
+
+___
+
 ### Modeling
 
 ```{r echo = F, message = F, warning = F}
@@ -498,7 +546,6 @@ for (i in 1:nrow(this_week)) {
 - `r this_week_preds$desc[14]`
 <!-- - `r this_week_preds$desc[15]` -->
 <!-- - `r this_week_preds$desc[16]` -->
-
 
 
 

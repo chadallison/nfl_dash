@@ -9,6 +9,7 @@
 - [Quarter-Based Scoring Trends](#quarter-based-scoring-trends)
 - [Offensive and Defensive CPR](#offensive-and-defensive-cpr)
 - [Weekly QB CER](#weekly-qb-cer)
+- [QB Air Yards v YAC](#qb-air-yards-v-yac)
 - [Modeling](#modeling)
 
 ------------------------------------------------------------------------
@@ -55,7 +56,7 @@
 
 ##### Five Best Total CPRs
 
-1.  BUF: 8.594
+1.  BUF: 8.287
 2.  DAL: 5.563
 3.  SF: 4.782
 4.  BAL: 4.688
@@ -63,11 +64,11 @@
 
 ##### Five Worst Total CPRs
 
-1.  DEN: -9.406
-2.  CHI: -7.406
+1.  DEN: -8.825
+2.  CHI: -4.945
 3.  CAR: -4.813
 4.  LV: -4.812
-5.  NYG: -4.625
+5.  WAS: -4.74
 
 ------------------------------------------------------------------------
 
@@ -77,23 +78,29 @@
 
 ------------------------------------------------------------------------
 
+### QB Air Yards v YAC
+
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+------------------------------------------------------------------------
+
 ### Modeling
 
-First draft basic logistic regression accuracy: 78.12%
+First draft basic logistic regression accuracy: 78.46%
 
 ##### *This Week’s Predictions*
 
-- NYJ @ DEN: NYJ def. DEN (0.991)
-- JAX @ BUF: BUF def. JAX (0.987)
-- NYG @ MIA: MIA def. NYG (0.965)
-- CHI @ WAS: CHI def. WAS (0.824)
-- CAR @ DET: DET def. CAR (0.817)
-- GB @ LV: GB def. LV (0.817)
-- BAL @ PIT: BAL def. PIT (0.795)
-- DAL @ SF: SF def. DAL (0.795)
-- KC @ MIN: KC def. MIN (0.738)
-- PHI @ LA: PHI def. LA (0.727)
-- NO @ NE: NE def. NO (0.559)
-- HOU @ ATL: HOU def. ATL (0.527)
-- CIN @ ARI: CIN def. ARI (0.522)
-- TEN @ IND: TEN def. IND (0.519) <!-- - NA --> <!-- - NA -->
+- NYJ @ DEN: NYJ def. DEN (0.986)
+- JAX @ BUF: BUF def. JAX (0.981)
+- NYG @ MIA: MIA def. NYG (0.95)
+- CHI @ WAS: CHI def. WAS (0.947)
+- CAR @ DET: DET def. CAR (0.806)
+- GB @ LV: GB def. LV (0.805)
+- BAL @ PIT: BAL def. PIT (0.794)
+- DAL @ SF: SF def. DAL (0.769)
+- KC @ MIN: KC def. MIN (0.732)
+- PHI @ LA: PHI def. LA (0.709)
+- NO @ NE: NE def. NO (0.534)
+- HOU @ ATL: HOU def. ATL (0.531)
+- TEN @ IND: TEN def. IND (0.523)
+- CIN @ ARI: CIN def. ARI (0.51) <!-- - NA --> <!-- - NA -->
