@@ -3,6 +3,8 @@ output: github_document
 knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md", envir = globalenv()) })
 ---
 
+##### *Formatting is off right now. Will be adjusting soon :)*
+
 ### Contents
 
 - [Team Standings]
@@ -549,10 +551,91 @@ for (i in 1:nrow(this_week)) {
 
 
 
+```{r}
+# team pts scored each week slugs
+end_games
 
+get_week_pts_scored = function(team, wk) {
+  x = end_games |> filter((home_team == team | away_team == team) & week == wk)
+  if (nrow(x) == 0) return(NA)
+  if (x$home_team == team) score = x$home_score else score = x$away_score
+  return(score)
+}
 
+weekly_scored = data.frame()
 
+for (i in 1:length(all_teams)) {
+  for (j in 1:max(end_games$week)) {
+    x = data.frame(team = all_teams[i], week = j)
+    weekly_scored = rbind(weekly_scored, x)
+  }
+}
 
+weekly_scored |>
+  rowwise() |>
+  mutate(week_scored = get_week_pts_scored(team, week)) |>
+  ungroup() |>
+  na.omit() |>
+  mutate(total_scored = sapply(team, get_pts_scored),
+         pct = week_scored / total_scored) |>
+  ggplot(aes(week, pct)) +
+  geom_line(aes(col = team), linewidth = 1.5, show.legend = F) +
+  scale_color_manual(values = team_hex) +
+  facet_wrap(vars(team), scales = "free_x", nrow = 5) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.5), labels = scales::percent) +
+  labs(x = "Week", y = "Percent of Total Points Scored",
+       title = "Offensive Scoring Trends")
+```
+
+### Team Margins by Half
+
+```{r echo = F}
+# points scored and allowed by half
+halftime_res = season_pbp |>
+  filter(desc == "END QUARTER 2") |>
+  select(game_id, home_team, away_team,
+         home_half_score = total_home_score, away_half_score = total_away_score)
+
+get_half_pts_scored = function(team) {
+  return(halftime_res |>
+    filter(home_team == team | away_team == team) |>
+    mutate(team_score = ifelse(home_team == team, home_half_score, away_half_score)) |>
+    pull(team_score) |>
+    sum())
+}
+
+get_half_pts_allowed = function(team) {
+  return(halftime_res |>
+    filter(home_team == team | away_team == team) |>
+    mutate(team_score = ifelse(home_team == team, away_half_score, home_half_score)) |>
+    pull(team_score) |>
+    sum())
+}
+
+halves_scored_allowed = data.frame(team = all_teams) |>
+  mutate(total_scored = sapply(team, get_pts_scored),
+         total_allowed = sapply(team, get_pts_allowed),
+         half_scored = sapply(team, get_half_pts_scored),
+         half_allowed = sapply(team, get_half_pts_allowed),
+         second_half_scored = total_scored - half_scored,
+         second_half_allowed = total_allowed - half_allowed)
+
+halves_scored_allowed |>
+  mutate(h1_margin = half_scored - half_allowed,
+         h2_margin = second_half_scored - second_half_allowed,
+         abs_diff = abs(h1_margin - h2_margin)) |>
+  select(team, h1_margin, h2_margin, abs_diff) |>
+  ggplot(aes(h1_margin, h2_margin)) +
+  geom_point(aes(col = team), size = 4, show.legend = F) +
+  scale_color_manual(values = team_hex) +
+  ggrepel::geom_text_repel(aes(label = team), size = 3.5) +
+  geom_hline(aes(yintercept = mean(h2_margin)), linetype = "dashed", alpha = 0.5) +
+  geom_vline(aes(xintercept = mean(h1_margin)), linetype = "dashed", alpha = 0.5) +
+  labs(x = "First Half Margin", y = "Second Half Margin",
+       title = "Scatterplot of Team Margins by Half") +
+  scale_x_continuous(breaks = seq(-100, 100, by = 10)) +
+  scale_y_continuous(breaks = seq(-100, 100, by = 10))
+```
 
 
 
