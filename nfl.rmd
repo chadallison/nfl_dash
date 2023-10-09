@@ -349,7 +349,7 @@ ___
 ### Weekly QB CER
 
 ```{r echo = F}
-current_week = 5
+current_week = max(end_games$week) + 1
 
 season_pbp |>
   filter(!is.na(air_yards) & week == current_week - 1) |>
