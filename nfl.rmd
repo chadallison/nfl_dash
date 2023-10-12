@@ -512,8 +512,10 @@ predict_winner_prob = function(home_team, away_team) {
   }
 }
 
+which_week = max(end_games$week) + 1
+
 this_week = nflfastR::fast_scraper_schedules(season = 2023) |>
-  filter(week == 5) |>
+  filter(week == which_week) |>
   select(home_team, away_team) |>
   rowwise() |>
   mutate(pred_winner = predict_game_winner(home_team, away_team),
@@ -546,7 +548,7 @@ for (i in 1:nrow(this_week)) {
 - `r this_week_preds$desc[12]`
 - `r this_week_preds$desc[13]`
 - `r this_week_preds$desc[14]`
-<!-- - `r this_week_preds$desc[15]` -->
+- `r this_week_preds$desc[15]`
 <!-- - `r this_week_preds$desc[16]` -->
 
 

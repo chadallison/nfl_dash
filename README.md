@@ -92,20 +92,21 @@ First draft basic logistic regression accuracy: 75.64%
 
 ##### *This Week’s Predictions*
 
-- NYJ @ DEN: NYJ def. DEN (0.988)
-- NYG @ MIA: MIA def. NYG (0.933)
-- JAX @ BUF: BUF def. JAX (0.894)
-- CAR @ DET: DET def. CAR (0.892)
-- CHI @ WAS: CHI def. WAS (0.886)
-- DAL @ SF: SF def. DAL (0.839)
-- KC @ MIN: KC def. MIN (0.827)
-- PHI @ LA: PHI def. LA (0.765)
-- CIN @ ARI: CIN def. ARI (0.73)
-- HOU @ ATL: ATL def. HOU (0.554)
-- BAL @ PIT: BAL def. PIT (0.531)
-- GB @ LV: GB def. LV (0.531)
-- TEN @ IND: TEN def. IND (0.515)
-- NO @ NE: NO def. NE (0.51) <!-- - NA --> <!-- - NA -->
+- NYG @ BUF: BUF def. NYG (0.982)
+- DEN @ KC: KC def. DEN (0.946)
+- MIN @ CHI: MIN def. CHI (0.934)
+- CAR @ MIA: MIA def. CAR (0.885)
+- SF @ CLE: SF def. CLE (0.876)
+- WAS @ ATL: ATL def. WAS (0.874)
+- DAL @ LAC: DAL def. LAC (0.845)
+- PHI @ NYJ: PHI def. NYJ (0.746)
+- SEA @ CIN: SEA def. CIN (0.74)
+- NE @ LV: LV def. NE (0.709)
+- DET @ TB: DET def. TB (0.693)
+- ARI @ LA: LA def. ARI (0.646)
+- NO @ HOU: HOU def. NO (0.584)
+- BAL @ TEN: TEN def. BAL (0.566)
+- IND @ JAX: IND def. JAX (0.518) <!-- - NA -->
 
 ``` r
 # team pts scored each week slugs
