@@ -512,7 +512,11 @@ predict_winner_prob = function(home_team, away_team) {
   }
 }
 
-which_week = max(end_games$week) + 1
+if ((end_games |> filter(week == max(end_games$week)) |> nrow()) == 1) {
+  which_week = max(end_games$week)
+} else {
+  which_week = max(end_games_week + 1)
+}
 
 this_week = nflfastR::fast_scraper_schedules(season = 2023) |>
   filter(week == which_week) |>
