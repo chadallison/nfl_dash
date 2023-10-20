@@ -59,18 +59,18 @@
 ##### Five Best Total CPRs
 
 1.  SF: 6.95
-2.  BUF: 5.764
+2.  BUF: 5.807
 3.  DET: 4.383
-4.  KC: 4.14
-5.  JAX: 3.332
+4.  KC: 4.183
+5.  JAX: 3.419
 
 ##### Five Worst Total CPRs
 
 1.  DEN: -5.945
-2.  NE: -4.889
+2.  NE: -4.998
 3.  CHI: -4.814
 4.  WAS: -4.556
-5.  CAR: -4.4
+5.  CAR: -4.51
 
 ------------------------------------------------------------------------
 
@@ -88,23 +88,23 @@
 
 ### Modeling
 
-First draft basic logistic regression accuracy: 69.89%
+First draft basic logistic regression accuracy: 76.6%
 
 ##### *This Week’s Predictions*
 
-- GB @ DEN: GB def. DEN (0.982)
+- GB @ DEN: GB def. DEN (0.985)
 - SF @ MIN: SF def. MIN (0.891)
-- LV @ CHI: LV def. CHI (0.881)
-- BUF @ NE: BUF def. NE (0.862)
-- MIA @ PHI: MIA def. PHI (0.788)
-- PIT @ LA: LA def. PIT (0.773)
-- ARI @ SEA: SEA def. ARI (0.747)
+- BUF @ NE: BUF def. NE (0.855)
+- MIA @ PHI: MIA def. PHI (0.827)
+- LV @ CHI: LV def. CHI (0.814)
+- PIT @ LA: LA def. PIT (0.762)
 - ATL @ TB: TB def. ATL (0.738)
-- CLE @ IND: CLE def. IND (0.713)
-- WAS @ NYG: WAS def. NYG (0.698)
-- LAC @ KC: KC def. LAC (0.69)
-- DET @ BAL: DET def. BAL (0.599)
-- JAX @ NO: JAX def. NO (0.516)
+- CLE @ IND: CLE def. IND (0.731)
+- ARI @ SEA: SEA def. ARI (0.725)
+- LAC @ KC: KC def. LAC (0.684)
+- DET @ BAL: DET def. BAL (0.593)
+- WAS @ NYG: WAS def. NYG (0.561)
+- JAX @ NO: JAX def. NO (0.511)
 - NA
 - NA <!-- - NA -->
 
@@ -113,7 +113,7 @@ First draft basic logistic regression accuracy: 69.89%
 end_games
 ```
 
-    ## # A tibble: 93 × 13
+    ## # A tibble: 94 × 13
     ##    game_id   date        week away_team away_score home_score home_team win_team
     ##    <chr>     <date>     <dbl> <chr>          <dbl>      <dbl> <chr>     <chr>   
     ##  1 2023_01_… 2023-09-10     1 ARI               16         20 WAS       WAS     
@@ -126,7 +126,7 @@ end_games
     ##  8 2023_01_… 2023-09-10     1 HOU                9         25 BAL       BAL     
     ##  9 2023_01_… 2023-09-10     1 JAX               31         21 IND       JAX     
     ## 10 2023_01_… 2023-09-10     1 LA                30         13 SEA       LA      
-    ## # ℹ 83 more rows
+    ## # ℹ 84 more rows
     ## # ℹ 5 more variables: win_score <dbl>, lose_team <chr>, lose_score <dbl>,
     ## #   game_margin <dbl>, total_points <dbl>
 
