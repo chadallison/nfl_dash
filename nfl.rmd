@@ -553,14 +553,12 @@ for (i in 1:nrow(this_week)) {
 - `r this_week_preds$desc[13]`
 - `r this_week_preds$desc[14]`
 - `r this_week_preds$desc[15]`
-<!-- - `r this_week_preds$desc[16]` -->
+- `r this_week_preds$desc[16]`
 
 
 
 ```{r}
 # team pts scored each week slugs
-end_games
-
 get_week_pts_scored = function(team, wk) {
   x = end_games |> filter((home_team == team | away_team == team) & week == wk)
   if (nrow(x) == 0) return(NA)
@@ -632,7 +630,7 @@ halves_scored_allowed |>
          abs_diff = abs(h1_margin - h2_margin)) |>
   select(team, h1_margin, h2_margin, abs_diff) |>
   ggplot(aes(h1_margin, h2_margin)) +
-  geom_point(aes(col = team), size = 4, show.legend = F) +
+  geom_point(aes(col = team), size = 4, shape = "square", show.legend = F) +
   scale_color_manual(values = team_hex) +
   ggrepel::geom_text_repel(aes(label = team), size = 3.5) +
   geom_hline(aes(yintercept = mean(h2_margin)), linetype = "dashed", alpha = 0.5) +

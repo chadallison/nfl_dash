@@ -58,19 +58,19 @@
 
 ##### Five Best Total CPRs
 
-1.  SF: 6.95
-2.  BUF: 5.807
-3.  DET: 4.383
-4.  KC: 4.183
-5.  JAX: 3.419
+1.  SF: 7.216
+2.  BAL: 5.113
+3.  KC: 4.44
+4.  BUF: 3.765
+5.  JAX: 3.365
 
 ##### Five Worst Total CPRs
 
-1.  DEN: -5.945
-2.  NE: -4.998
-3.  CHI: -4.814
-4.  WAS: -4.556
-5.  CAR: -4.51
+1.  CAR: -5.127
+2.  DEN: -5.054
+3.  WAS: -4.959
+4.  LV: -4.909
+5.  NYG: -3.965
 
 ------------------------------------------------------------------------
 
@@ -88,32 +88,33 @@
 
 ### Modeling
 
-First draft basic logistic regression accuracy: 76.6%
+First draft basic logistic regression accuracy: 70.48%
 
 ##### *This Week’s Predictions*
 
-- GB @ DEN: GB def. DEN (0.985)
-- SF @ MIN: SF def. MIN (0.891)
-- BUF @ NE: BUF def. NE (0.855)
-- MIA @ PHI: MIA def. PHI (0.827)
-- LV @ CHI: LV def. CHI (0.814)
-- PIT @ LA: LA def. PIT (0.762)
-- ATL @ TB: TB def. ATL (0.738)
-- CLE @ IND: CLE def. IND (0.731)
-- ARI @ SEA: SEA def. ARI (0.725)
-- LAC @ KC: KC def. LAC (0.684)
-- DET @ BAL: DET def. BAL (0.593)
-- WAS @ NYG: WAS def. NYG (0.561)
-- JAX @ NO: JAX def. NO (0.511)
-- NA
-- NA <!-- - NA -->
+- KC @ DEN: KC def. DEN (0.978)
+- HOU @ CAR: HOU def. CAR (0.962)
+- CIN @ SF: SF def. CIN (0.96)
+- BAL @ ARI: BAL def. ARI (0.938)
+- NE @ MIA: MIA def. NE (0.873)
+- PHI @ WAS: PHI def. WAS (0.829)
+- TB @ BUF: BUF def. TB (0.81)
+- LV @ DET: DET def. LV (0.799)
+- LA @ DAL: DAL def. LA (0.735)
+- CLE @ SEA: SEA def. CLE (0.699)
+- NO @ IND: NO def. IND (0.697)
+- ATL @ TEN: TEN def. ATL (0.671)
+- NYJ @ NYG: NYG def. NYJ (0.565)
+- JAX @ PIT: JAX def. PIT (0.564)
+- MIN @ GB: GB def. MIN (0.542)
+  <!-- - CHI @ LAC: CHI def. LAC (0.538) -->
 
 ``` r
 # team pts scored each week slugs
 end_games
 ```
 
-    ## # A tibble: 94 × 13
+    ## # A tibble: 105 × 13
     ##    game_id   date        week away_team away_score home_score home_team win_team
     ##    <chr>     <date>     <dbl> <chr>          <dbl>      <dbl> <chr>     <chr>   
     ##  1 2023_01_… 2023-09-10     1 ARI               16         20 WAS       WAS     
@@ -126,7 +127,7 @@ end_games
     ##  8 2023_01_… 2023-09-10     1 HOU                9         25 BAL       BAL     
     ##  9 2023_01_… 2023-09-10     1 JAX               31         21 IND       JAX     
     ## 10 2023_01_… 2023-09-10     1 LA                30         13 SEA       LA      
-    ## # ℹ 84 more rows
+    ## # ℹ 95 more rows
     ## # ℹ 5 more variables: win_score <dbl>, lose_team <chr>, lose_score <dbl>,
     ## #   game_margin <dbl>, total_points <dbl>
 
