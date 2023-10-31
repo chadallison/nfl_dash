@@ -58,19 +58,19 @@
 
 ##### Five Best Total CPRs
 
-1.  SF: 7.216
-2.  BAL: 5.113
-3.  KC: 4.44
-4.  BUF: 3.765
-5.  JAX: 3.365
+1.  BAL: 4.486
+2.  SF: 4.105
+3.  DAL: 3.968
+4.  BUF: 3.755
+5.  KC: 3.105
 
 ##### Five Worst Total CPRs
 
-1.  CAR: -5.127
-2.  DEN: -5.054
-3.  WAS: -4.959
-4.  LV: -4.909
-5.  NYG: -3.965
+1.  LV: -4.753
+2.  WAS: -4.25
+3.  NYG: -3.946
+4.  CHI: -3.879
+5.  CAR: -3.659
 
 ------------------------------------------------------------------------
 
@@ -88,50 +88,29 @@
 
 ### Modeling
 
-First draft basic logistic regression accuracy: 70.48%
+First draft basic logistic regression accuracy: 69.67%
 
 ##### *This Week’s Predictions*
 
-- KC @ DEN: KC def. DEN (0.978)
-- HOU @ CAR: HOU def. CAR (0.962)
-- CIN @ SF: SF def. CIN (0.96)
-- BAL @ ARI: BAL def. ARI (0.938)
-- NE @ MIA: MIA def. NE (0.873)
-- PHI @ WAS: PHI def. WAS (0.829)
-- TB @ BUF: BUF def. TB (0.81)
-- LV @ DET: DET def. LV (0.799)
-- LA @ DAL: DAL def. LA (0.735)
-- CLE @ SEA: SEA def. CLE (0.699)
-- NO @ IND: NO def. IND (0.697)
-- ATL @ TEN: TEN def. ATL (0.671)
-- NYJ @ NYG: NYG def. NYJ (0.565)
-- JAX @ PIT: JAX def. PIT (0.564)
-- MIN @ GB: GB def. MIN (0.542)
-  <!-- - CHI @ LAC: CHI def. LAC (0.538) -->
+- IND @ CAR: IND def. CAR (0.766)
+- ARI @ CLE: CLE def. ARI (0.745)
+- BUF @ CIN: BUF def. CIN (0.713)
+- CHI @ NO: NO def. CHI (0.706)
+- SEA @ BAL: BAL def. SEA (0.662)
+- NYG @ LV: LV def. NYG (0.66)
+- TB @ HOU: HOU def. TB (0.623)
+- DAL @ PHI: PHI def. DAL (0.57)
+- WAS @ NE: WAS def. NE (0.558)
+- LAC @ NYJ: NYJ def. LAC (0.525)
+- TEN @ PIT: PIT def. TEN (0.524)
+- MIN @ ATL: MIN def. ATL (0.52)
+- MIA @ KC: MIA def. KC (0.516)
+- LA @ GB: GB def. LA (0.503)
+- NA
+- NA
 
 ``` r
 # team pts scored each week slugs
-end_games
-```
-
-    ## # A tibble: 105 × 13
-    ##    game_id   date        week away_team away_score home_score home_team win_team
-    ##    <chr>     <date>     <dbl> <chr>          <dbl>      <dbl> <chr>     <chr>   
-    ##  1 2023_01_… 2023-09-10     1 ARI               16         20 WAS       WAS     
-    ##  2 2023_01_… 2023-09-11     1 BUF               16         22 NYJ       NYJ     
-    ##  3 2023_01_… 2023-09-10     1 CAR               10         24 ATL       ATL     
-    ##  4 2023_01_… 2023-09-10     1 CIN                3         24 CLE       CLE     
-    ##  5 2023_01_… 2023-09-10     1 DAL               40          0 NYG       DAL     
-    ##  6 2023_01_… 2023-09-07     1 DET               21         20 KC        DET     
-    ##  7 2023_01_… 2023-09-10     1 GB                38         20 CHI       GB      
-    ##  8 2023_01_… 2023-09-10     1 HOU                9         25 BAL       BAL     
-    ##  9 2023_01_… 2023-09-10     1 JAX               31         21 IND       JAX     
-    ## 10 2023_01_… 2023-09-10     1 LA                30         13 SEA       LA      
-    ## # ℹ 95 more rows
-    ## # ℹ 5 more variables: win_score <dbl>, lose_team <chr>, lose_score <dbl>,
-    ## #   game_margin <dbl>, total_points <dbl>
-
-``` r
 get_week_pts_scored = function(team, wk) {
   x = end_games |> filter((home_team == team | away_team == team) & week == wk)
   if (nrow(x) == 0) return(NA)
