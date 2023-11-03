@@ -557,7 +557,7 @@ for (i in 1:nrow(this_week)) {
 
 
 
-```{r}
+```{r echo = F}
 # team pts scored each week slugs
 get_week_pts_scored = function(team, wk) {
   x = end_games |> filter((home_team == team | away_team == team) & week == wk)
