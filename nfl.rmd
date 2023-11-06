@@ -644,6 +644,24 @@ halves_scored_allowed |>
 
 
 
+```{r include = F}
+# data.frame(team = all_teams) |>
+#   mutate(off_ppg = sapply(team, get_team_off_ppg)) |>
+#   left_join(ypg, by = "team") |>
+#   transmute(team, score = round(off_ppg / off_ypg * 100, 3)) |>
+#   arrange(desc(score))
+
+# get_games_played = function(team) {
+#   x = c(end_games$home_team, end_games$away_team)
+#   return(length(x[x == team]))
+# }
+# 
+# get_pts_scored = function(team) {
+#   home_score = end_games |> filter(home_team == team) |> pull(home_score)
+#   away_score = end_games |> filter(away_team == team) |> pull(away_score)
+#   return(sum(c(home_score, away_score)))
+# }
+```
 
 
 

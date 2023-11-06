@@ -58,19 +58,19 @@
 
 ##### Five Best Total CPRs
 
-1.  BAL: 4.532
-2.  SF: 4.174
-3.  DAL: 3.968
-4.  BUF: 3.755
-5.  KC: 3.105
+1.  BAL: 6.097
+2.  SF: 3.983
+3.  KC: 3.521
+4.  DAL: 3.281
+5.  JAX: 3.104
 
 ##### Five Worst Total CPRs
 
-1.  LV: -4.683
-2.  WAS: -4.25
-3.  NYG: -3.946
-4.  CHI: -3.879
-5.  CAR: -3.659
+1.  NYG: -5.702
+2.  CAR: -4.517
+3.  WAS: -4.511
+4.  ARI: -4.187
+5.  NE: -3.518
 
 ------------------------------------------------------------------------
 
@@ -88,24 +88,24 @@
 
 ### Modeling
 
-First draft basic logistic regression accuracy: 69.92%
+First draft basic logistic regression accuracy: 73.33%
 
 ##### *This Week’s Predictions*
 
-- IND @ CAR: IND def. CAR (0.774)
-- ARI @ CLE: CLE def. ARI (0.751)
-- BUF @ CIN: BUF def. CIN (0.712)
-- CHI @ NO: NO def. CHI (0.709)
-- NYG @ LV: LV def. NYG (0.703)
-- SEA @ BAL: BAL def. SEA (0.664)
-- TB @ HOU: HOU def. TB (0.64)
-- TEN @ PIT: PIT def. TEN (0.566)
-- WAS @ NE: WAS def. NE (0.556)
-- DAL @ PHI: PHI def. DAL (0.556)
-- LAC @ NYJ: NYJ def. LAC (0.533)
-- MIA @ KC: MIA def. KC (0.511)
-- MIN @ ATL: MIN def. ATL (0.509)
-- LA @ GB: GB def. LA (0.508)
+- NYG @ DAL: DAL def. NYG (0.965)
+- DEN @ BUF: BUF def. DEN (0.878)
+- CLE @ BAL: BAL def. CLE (0.811)
+- IND @ NE: IND def. NE (0.736)
+- ATL @ ARI: ATL def. ARI (0.698)
+- WAS @ SEA: SEA def. WAS (0.634)
+- TEN @ TB: TB def. TEN (0.617)
+- NO @ MIN: MIN def. NO (0.574)
+- DET @ LAC: DET def. LAC (0.554)
+- GB @ PIT: PIT def. GB (0.553)
+- NYJ @ LV: LV def. NYJ (0.546)
+- CAR @ CHI: CAR def. CHI (0.526)
+- SF @ JAX: JAX def. SF (0.509)
+- HOU @ CIN: CIN def. HOU (0.505)
 - NA
 - NA
 
