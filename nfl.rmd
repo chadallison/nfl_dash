@@ -3,7 +3,7 @@ output: github_document
 knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md", envir = globalenv()) })
 ---
 
-##### *Formatting is off right now. Will be adjusting soon :)*
+<!-- ##### *Formatting is off right now. Will be adjusting soon :)* -->
 
 ### Contents
 
@@ -34,8 +34,7 @@ theme_custom = theme_avatar() +
 
 theme_set(theme_custom)
 
-write_csv(load_pbp(season = 2023), "data/season_pbp.csv") # doing this prevents data update message
-season_pbp = read_csv("data/season_pbp.csv", show_col_types = F)
+season_pbp = load_pbp(season = 2023)
 
 end_games = season_pbp |>
   filter(desc == "END GAME") |>
@@ -67,7 +66,7 @@ ___
 
 ### Team Standings
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 get_n_wins = function(team) {
   return(end_games |> filter(win_team == team) |> nrow())
 }
@@ -101,7 +100,7 @@ ___
 
 ### Offensive and Defensive PPG
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 get_games_played = function(team) {
   x = c(end_games$home_team, end_games$away_team)
   return(length(x[x == team]))
@@ -143,7 +142,7 @@ ___
 
 ### Offensive and Defensive YPG
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 ypg = season_pbp |>
   filter(!is.na(posteam)) |>
   group_by(team = posteam) |>
@@ -176,7 +175,7 @@ ___
 
 ### Team Margins
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 margins = data.frame(team = all_teams) |>
   mutate(scored = sapply(team, get_pts_scored),
          allowed = sapply(team, get_pts_allowed),
@@ -201,7 +200,7 @@ ___
 
 ### Point-Adjusted Margins
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 pam_df = data.frame(team = all_teams) |>
   mutate(scored = sapply(team, get_pts_scored),
          allowed = sapply(team, get_pts_allowed),
@@ -226,7 +225,7 @@ ___
 
 ### Quarter-Based Scoring Trends
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 teams_qtrs = data.frame()
 
 for (team in all_teams) {
@@ -273,7 +272,7 @@ ___
 
 ### Offensive and Defensive CPR
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 ppg_df = data.frame(team = all_teams) |>
   mutate(scored = sapply(team, get_pts_scored),
          allowed = sapply(team, get_pts_allowed),
@@ -348,7 +347,7 @@ ___
 
 ### Weekly QB CER
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 current_week = max(end_games$week) + 1
 
 season_pbp |>
@@ -378,7 +377,7 @@ ___
 
 ### QB Air Yards v YAC
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 qb_air = season_pbp |>
   filter(!is.na(air_yards) & !is.na(yards_after_catch)) |>
   mutate(passer = paste0(substr(passer, 1, 2), " ", substr(passer, 3, nchar(passer)))) |>
@@ -552,12 +551,12 @@ for (i in 1:nrow(this_week)) {
 - `r this_week_preds$desc[12]`
 - `r this_week_preds$desc[13]`
 - `r this_week_preds$desc[14]`
-- `r this_week_preds$desc[15]`
-- `r this_week_preds$desc[16]`
+<!-- - `r this_week_preds$desc[15]` -->
+<!-- - `r this_week_preds$desc[16]` -->
 
 
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 # team pts scored each week slugs
 get_week_pts_scored = function(team, wk) {
   x = end_games |> filter((home_team == team | away_team == team) & week == wk)
@@ -593,7 +592,7 @@ weekly_scored |>
 
 ### Team Margins by Half
 
-```{r echo = F}
+```{r message = F, warning = F, echo = F}
 # points scored and allowed by half
 halftime_res = season_pbp |>
   filter(desc == "END QUARTER 2") |>
@@ -644,7 +643,7 @@ halves_scored_allowed |>
 
 
 
-```{r include = F}
+```{r message = F, warning = F, include = F}
 # data.frame(team = all_teams) |>
 #   mutate(off_ppg = sapply(team, get_team_off_ppg)) |>
 #   left_join(ypg, by = "team") |>

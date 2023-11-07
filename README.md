@@ -1,5 +1,5 @@
 
-##### *Formatting is off right now. Will be adjusting soon :)*
+<!-- ##### *Formatting is off right now. Will be adjusting soon :)* -->
 
 ### Contents
 
@@ -60,17 +60,17 @@
 
 1.  BAL: 6.097
 2.  SF: 3.983
-3.  KC: 3.521
-4.  DAL: 3.281
+3.  KC: 3.517
+4.  DAL: 3.278
 5.  JAX: 3.104
 
 ##### Five Worst Total CPRs
 
-1.  NYG: -5.702
+1.  NYG: -5.844
 2.  CAR: -4.517
 3.  WAS: -4.511
 4.  ARI: -4.187
-5.  NE: -3.518
+5.  NE: -3.661
 
 ------------------------------------------------------------------------
 
@@ -88,26 +88,24 @@
 
 ### Modeling
 
-First draft basic logistic regression accuracy: 73.33%
+First draft basic logistic regression accuracy: 71.32%
 
 ##### *This Week’s Predictions*
 
-- NYG @ DAL: DAL def. NYG (0.965)
-- DEN @ BUF: BUF def. DEN (0.878)
-- CLE @ BAL: BAL def. CLE (0.811)
-- IND @ NE: IND def. NE (0.736)
-- ATL @ ARI: ATL def. ARI (0.698)
-- WAS @ SEA: SEA def. WAS (0.634)
-- TEN @ TB: TB def. TEN (0.617)
-- NO @ MIN: MIN def. NO (0.574)
-- DET @ LAC: DET def. LAC (0.554)
-- GB @ PIT: PIT def. GB (0.553)
-- NYJ @ LV: LV def. NYJ (0.546)
-- CAR @ CHI: CAR def. CHI (0.526)
-- SF @ JAX: JAX def. SF (0.509)
-- HOU @ CIN: CIN def. HOU (0.505)
-- NA
-- NA
+- NYG @ DAL: DAL def. NYG (0.959)
+- DEN @ BUF: BUF def. DEN (0.876)
+- CLE @ BAL: BAL def. CLE (0.818)
+- IND @ NE: IND def. NE (0.749)
+- ATL @ ARI: ATL def. ARI (0.703)
+- WAS @ SEA: SEA def. WAS (0.63)
+- TEN @ TB: TB def. TEN (0.613)
+- NYJ @ LV: LV def. NYJ (0.608)
+- NO @ MIN: MIN def. NO (0.573)
+- DET @ LAC: LAC def. DET (0.559)
+- GB @ PIT: PIT def. GB (0.546)
+- CAR @ CHI: CAR def. CHI (0.527)
+- SF @ JAX: JAX def. SF (0.503)
+- HOU @ CIN: HOU def. CIN (0.5) <!-- - NA --> <!-- - NA -->
 
 ![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
