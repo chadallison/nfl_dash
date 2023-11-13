@@ -352,6 +352,7 @@ current_week = max(end_games$week) + 1
 
 season_pbp |>
   filter(!is.na(air_yards) & week == current_week - 1) |>
+  # filter(!is.na(air_yards)) |>
   mutate(is_complete = ifelse(is.na(yards_after_catch), 0, 1)) |>
   select(passer, air_yards, is_complete) |>
   group_by(passer) |>
