@@ -58,19 +58,19 @@
 
 ##### Five Best Total CPRs
 
-1.  BAL: 5.675
-2.  SF: 5.451
-3.  DAL: 3.95
-4.  CLE: 3.467
-5.  KC: 3.328
+1.  SF: 6.488
+2.  DAL: 5.419
+3.  BAL: 4.988
+4.  BUF: 2.964
+5.  KC: 2.849
 
 ##### Five Worst Total CPRs
 
-1.  NYG: -5.907
-2.  CAR: -4.441
-3.  WAS: -4.171
-4.  ARI: -3.728
-5.  NE: -3.4
+1.  WAS: -5.544
+2.  CAR: -4.796
+3.  NYG: -4.559
+4.  NE: -3.556
+5.  ARI: -3.349
 
 ------------------------------------------------------------------------
 
@@ -88,27 +88,94 @@
 
 ### Modeling
 
-First draft basic logistic regression accuracy: 73.83%
+First draft basic logistic regression accuracy: 66.35%
 
 ##### *This Week’s Predictions*
 
-- DAL @ CAR: DAL def. CAR (0.899)
-- NYJ @ BUF: BUF def. NYJ (0.899)
-- LV @ MIA: MIA def. LV (0.878)
-- TB @ SF: SF def. TB (0.875)
-- CIN @ BAL: BAL def. CIN (0.861)
-- PIT @ CLE: CLE def. PIT (0.806)
-- MIN @ DEN: MIN def. DEN (0.805)
-- ARI @ HOU: HOU def. ARI (0.794)
-- CHI @ DET: DET def. CHI (0.756)
-- NYG @ WAS: WAS def. NYG (0.736)
-- TEN @ JAX: JAX def. TEN (0.716)
-- PHI @ KC: KC def. PHI (0.569)
-- LAC @ GB: LAC def. GB (0.547)
-- SEA @ LA: SEA def. LA (0.538) <!-- - NA --> <!-- - NA -->
+- NYJ @ MIA: MIA def. NYJ (0.896)
+- NYG @ NO: NO def. NYG (0.821)
+- SF @ ARI: SF def. ARI (0.819)
+- KC @ NE: KC def. NE (0.755)
+- ATL @ CAR: ATL def. CAR (0.742)
+- PHI @ SEA: PHI def. SEA (0.718)
+- PIT @ IND: IND def. PIT (0.709)
+- DEN @ DET: DET def. DEN (0.645)
+- CHI @ CLE: CLE def. CHI (0.611)
+- TB @ GB: GB def. TB (0.602)
+- WAS @ LA: LA def. WAS (0.598)
+- BAL @ JAX: BAL def. JAX (0.571)
+- MIN @ CIN: MIN def. CIN (0.57)
+- LAC @ LV: LAC def. LV (0.566)
+  <!-- - DAL @ BUF: BUF def. DAL (0.561) -->
+  <!-- - HOU @ TEN: HOU def. TEN (0.553) -->
 
 ![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ### Team Margins by Half
 
 ![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+    ##    team            class
+    ## 1   ARI       always bad
+    ## 2   ATL second half team
+    ## 3   BAL      always good
+    ## 4   BUF      always good
+    ## 5   CAR       always bad
+    ## 6   CHI       always bad
+    ## 7   CIN second half team
+    ## 8   CLE      always good
+    ## 9   DAL      always good
+    ## 10  DEN       always bad
+    ## 11  DET  first half team
+    ## 12   GB second half team
+    ## 13  HOU  first half team
+    ## 14  IND       always bad
+    ## 15  JAX  first half team
+    ## 16   KC  first half team
+    ## 17   LA second half team
+    ## 18  LAC  first half team
+    ## 19   LV       always bad
+    ## 20  MIA      always good
+    ## 21  MIN  first half team
+    ## 22   NE       always bad
+    ## 23   NO second half team
+    ## 24  NYG       always bad
+    ## 25  NYJ second half team
+    ## 26  PHI second half team
+    ## 27  PIT second half team
+    ## 28  SEA       always bad
+    ## 29   SF      always good
+    ## 30   TB       always bad
+    ## 31  TEN  first half team
+    ## 32  WAS       always bad
+
+``` r
+data.frame(team = all_teams) |>
+  mutate(off_cpr = sapply(team, get_off_cpr),
+         def_cpr = sapply(team, get_def_cpr)) |>
+  ggplot(aes(off_cpr, def_cpr)) +
+  geom_point(aes(col = team), size = 5, shape = "square", show.legend = F) +
+  ggrepel::geom_text_repel(aes(label = team), size = 3.5, max.overlaps = 32) +
+  scale_color_manual(values = team_hex) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.25) +
+  geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.25)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+``` r
+data.frame(team = all_teams) |>
+  mutate(off_cpr = sapply(team, get_off_cpr),
+         def_cpr = sapply(team, get_def_cpr),
+         class = case_when(off_cpr > 0 & def_cpr > 0 ~ "good overall",
+                           off_cpr > 0 & def_cpr <= 0 ~ "good offense, bad defense",
+                           off_cpr <= 0 & def_cpr > 0 ~ "bad offense, good defense",
+                           off_cpr <= 0 & def_cpr <= 0 ~ "bad overall")) |>
+  count(class)
+```
+
+    ##                       class  n
+    ## 1 bad offense, good defense  8
+    ## 2               bad overall  8
+    ## 3 good offense, bad defense  6
+    ## 4              good overall 10
