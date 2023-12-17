@@ -58,19 +58,19 @@
 
 ##### Five Best Total CPRs
 
-1.  SF: 6.488
-2.  DAL: 5.419
-3.  BAL: 4.988
-4.  BUF: 2.964
-5.  KC: 2.849
+1.  SF: 6.446
+2.  DAL: 5.305
+3.  BAL: 4.967
+4.  BUF: 3.038
+5.  KC: 2.783
 
 ##### Five Worst Total CPRs
 
-1.  WAS: -5.544
-2.  CAR: -4.796
-3.  NYG: -4.559
-4.  NE: -3.556
-5.  ARI: -3.349
+1.  WAS: -5.608
+2.  CAR: -4.696
+3.  NYG: -4.431
+4.  NE: -3.532
+5.  ARI: -3.377
 
 ------------------------------------------------------------------------
 
@@ -88,26 +88,26 @@
 
 ### Modeling
 
-First draft basic logistic regression accuracy: 66.35%
+First draft basic logistic regression accuracy: 66.98%
 
 ##### *This Week’s Predictions*
 
-- NYJ @ MIA: MIA def. NYJ (0.896)
-- NYG @ NO: NO def. NYG (0.821)
-- SF @ ARI: SF def. ARI (0.819)
-- KC @ NE: KC def. NE (0.755)
-- ATL @ CAR: ATL def. CAR (0.742)
-- PHI @ SEA: PHI def. SEA (0.718)
-- PIT @ IND: IND def. PIT (0.709)
-- DEN @ DET: DET def. DEN (0.645)
-- CHI @ CLE: CLE def. CHI (0.611)
-- TB @ GB: GB def. TB (0.602)
-- WAS @ LA: LA def. WAS (0.598)
-- BAL @ JAX: BAL def. JAX (0.571)
-- MIN @ CIN: MIN def. CIN (0.57)
-- LAC @ LV: LAC def. LV (0.566)
-  <!-- - DAL @ BUF: BUF def. DAL (0.561) -->
-  <!-- - HOU @ TEN: HOU def. TEN (0.553) -->
+- NYG @ PHI: PHI def. NYG (0.872)
+- NE @ DEN: DEN def. NE (0.772)
+- LV @ KC: KC def. LV (0.751)
+- BAL @ SF: SF def. BAL (0.737)
+- ARI @ CHI: CHI def. ARI (0.735)
+- GB @ CAR: GB def. CAR (0.705)
+- CIN @ PIT: CIN def. PIT (0.683)
+- DAL @ MIA: MIA def. DAL (0.667)
+- BUF @ LAC: BUF def. LAC (0.645)
+- SEA @ TEN: TEN def. SEA (0.613)
+- NO @ LA: LA def. NO (0.58)
+- CLE @ HOU: HOU def. CLE (0.563)
+- DET @ MIN: DET def. MIN (0.557)
+- JAX @ TB: JAX def. TB (0.525)
+  <!-- - WAS @ NYJ: NYJ def. WAS (0.521) -->
+  <!-- - IND @ ATL: IND def. ATL (0.516) -->
 
 ![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
@@ -129,12 +129,12 @@ First draft basic logistic regression accuracy: 66.35%
     ## 11  DET  first half team
     ## 12   GB second half team
     ## 13  HOU  first half team
-    ## 14  IND       always bad
+    ## 14  IND  first half team
     ## 15  JAX  first half team
     ## 16   KC  first half team
     ## 17   LA second half team
-    ## 18  LAC  first half team
-    ## 19   LV       always bad
+    ## 18  LAC       always bad
+    ## 19   LV  first half team
     ## 20  MIA      always good
     ## 21  MIN  first half team
     ## 22   NE       always bad
@@ -174,8 +174,8 @@ data.frame(team = all_teams) |>
   count(class)
 ```
 
-    ##                       class  n
-    ## 1 bad offense, good defense  8
-    ## 2               bad overall  8
-    ## 3 good offense, bad defense  6
-    ## 4              good overall 10
+    ##                       class n
+    ## 1 bad offense, good defense 9
+    ## 2               bad overall 7
+    ## 3 good offense, bad defense 7
+    ## 4              good overall 9
