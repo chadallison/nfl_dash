@@ -665,6 +665,17 @@ halves_scored_allowed |>
 
 
 
+```{r message = F, warning = F}
+season_pbp |>
+  filter(str_detect(desc, "J.Fields")) |>
+  filter(down == 3 | down == 4) |>
+  mutate(first = ifelse(yards_gained >= ydstogo, 1, 0)) |>
+  summarise(avg_ytg = round(mean(ydstogo), 1),
+            avg_yds = round(mean(yards_gained), 1),
+            pct = round(mean(first) * 100, 2))
+
+# ydstogo, yards_gained, shotgun, qb_dropback, qb_scramble, pass_length, pass_location, air_yards, yards_after_catch
+```
 
 
 
