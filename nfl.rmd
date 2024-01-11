@@ -351,8 +351,8 @@ ___
 current_week = max(end_games$week) + 1
 
 season_pbp |>
-  filter(!is.na(air_yards) & week == current_week - 1) |>
-  # filter(!is.na(air_yards)) |>
+  # filter(!is.na(air_yards) & week == current_week - 1) |>
+  filter(!is.na(air_yards)) |>
   mutate(is_complete = ifelse(is.na(yards_after_catch), 0, 1)) |>
   select(passer, air_yards, is_complete) |>
   group_by(passer) |>
@@ -360,16 +360,16 @@ season_pbp |>
             total_air = sum(air_yards),
             avg_air = mean(air_yards),
             comp_rate = mean(is_complete)) |>
-  filter(n >= 10) |>
+  slice_max(n, n = 30, with_ties = F) |>
   transmute(passer, cer = round(avg_air / (1 - comp_rate), 3),
-            cer = round(log(cer), 3),
+            cer = round(log(cer), 2),
             passer = paste0(passer, " (", cer, ")")) |>
   ggplot(aes(reorder(passer, cer), cer)) +
   geom_col(aes(fill = cer), show.legend = F) +
   coord_flip() +
   scale_fill_gradient(low = "indianred3", high = "springgreen4") +
   labs(x = NULL, y = "QB CER",
-       title = "Past Week CER Rankings",
+       title = "CER Rankings",
        subtitle = "CER (Chad Efficiency Rating) = ln(Avg. Air Yards / (1 - Completion Rate))") +
   scale_y_continuous(breaks = seq(0, 10, by = 0.5))
 ```
@@ -676,6 +676,71 @@ season_pbp |>
 
 # ydstogo, yards_gained, shotgun, qb_dropback, qb_scramble, pass_length, pass_location, air_yards, yards_after_catch
 ```
+
+
+
+```{r}
+full_predict = function(home, away) {
+  winner = predict_game_winner(home_team = home, away_team = away)
+  prob = (predict_winner_prob(home_team = home, away_team = away))[[1]]
+  return(paste0(winner, " (", prob, ")"))
+}
+
+# wild card weekend
+full_predict(home = "BUF", away = "PIT")
+full_predict(home = "KC", away = "MIA")
+full_predict(home = "HOU", away = "CLE")
+full_predict(home = "DAL", away = "GB")
+full_predict(home = "DET", away = "LA")
+full_predict(home = "TB", away = "PHI")
+
+# division semis
+full_predict(home = "BUF", away = "KC")
+full_predict(home = "BAL", away = "HOU")
+full_predict(home = "SF", away = "PHI")
+full_predict(home = "DAL", away = "DET")
+
+# division championships
+full_predict(home = "BAL", away = "BUF")
+full_predict(home = "SF", away = "DAL")
+
+# super bowl
+p1 = predict_winner_prob(home_team = "BAL", away_team = "SF")[[1]]
+p2 = predict_winner_prob(home_team = "SF", away_team = "BAL")[[1]]
+sprintf("super bowl champs: BAL (%s)", (p1 + (1 - p2)) / 2)
+```
+
+
+
+
+
+
+
+
+
+
+### new work
+
+```{r}
+nflfastR::load_pbp(season = 2023)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
